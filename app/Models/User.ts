@@ -4,7 +4,11 @@ import {
   column,
   beforeSave,
   BaseModel,
+  hasMany,
+  HasMany
 } from '@ioc:Adonis/Lucid/Orm'
+
+import Transaction from 'App/Models/Transaction'
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -21,6 +25,9 @@ export default class User extends BaseModel {
 
   @column()
   public name: string
+
+  @hasMany(() => Transaction)
+  public transactions: HasMany<typeof Transaction>
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
