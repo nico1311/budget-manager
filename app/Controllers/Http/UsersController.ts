@@ -1,5 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { rules, schema } from '@ioc:Adonis/Core/Validator';
+import Database from '@ioc:Adonis/Lucid/Database';
 import User from 'App/Models/User';
 
 export default class UsersController {
@@ -7,10 +8,19 @@ export default class UsersController {
     const { auth } = ctx,
       user = auth.user!;
 
+    let balance = 0;
+
+    const balanceQuery = await Database.from('user_balances')
+      .select('balance').where('user_id', user.id)
+      .first();
+
+    if (balanceQuery && balanceQuery.balance) balance = balanceQuery.balance;
+
     return {
       id: user.id,
       email: user.email,
-      name: user.name
+      name: user.name,
+      balance: balance
     }
   }
 

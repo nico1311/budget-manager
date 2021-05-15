@@ -11,12 +11,16 @@ export default class Transactions extends BaseSchema {
         .unsigned()
         .references('users.id')
         .onDelete('CASCADE')
+      table.dateTime('created_at').defaultTo(this.now())
       table.integer('type').notNullable()
       table.integer('category').defaultTo(0)
       table.decimal('amount').notNullable()
       table.string('comment', 1000).notNullable()
-      table.timestamps(true)
-    })
+    });
+
+    this.schema.alterTable(this.tableName, (table) => {
+      table.index('amount');
+    });
   }
 
   public async down () {
