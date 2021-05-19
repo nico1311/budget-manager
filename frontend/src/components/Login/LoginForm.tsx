@@ -6,22 +6,19 @@ import {
   Button,
   Stack,
 } from '@chakra-ui/react';
+
 import { Formik, Form, Field } from 'formik';
 import { FormikErrors, FormikHelpers, FormikProps, FieldInputProps } from 'formik';
+import type { LoginPayload } from '../../types';
 
-interface FormValues {
-  email: string,
-  password: string
-}
-
-const LoginForm = ({ onSubmit }: {onSubmit: (values: FormValues, actions: FormikHelpers<FormValues>) => void}) => {
+const LoginForm = ({ onSubmit }: {onSubmit: (values: LoginPayload, actions: FormikHelpers<LoginPayload>) => void}) => {
   const [loginButtonDisabled, setLoginButtonDisabled] = useState(true);
 
   return (
     <Formik
       initialValues={{email: '', password: ''}}
-      validate={(values: FormValues) => {
-        const errors: FormikErrors<FormValues> = {};
+      validate={(values: LoginPayload) => {
+        const errors: FormikErrors<LoginPayload> = {};
         if (!values.email) {
           errors.email = 'Required';
         } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
@@ -37,7 +34,7 @@ const LoginForm = ({ onSubmit }: {onSubmit: (values: FormValues, actions: Formik
         <Form>
           <Stack spacing="16px">
             <Field name="email" type="email">
-              {({field, form}: {field: FieldInputProps<FormValues>, form: FormikProps<FormValues>}) => (
+              {({field, form}: {field: FieldInputProps<any>, form: FormikProps<LoginPayload>}) => (
                 <FormControl isInvalid={form.errors.email && form.touched.email}>
                   <Input {...field} id="email" placeholder="Email" />
                   <FormErrorMessage>{form.errors.email}</FormErrorMessage>
@@ -45,7 +42,7 @@ const LoginForm = ({ onSubmit }: {onSubmit: (values: FormValues, actions: Formik
               )}
             </Field>
             <Field name="password">
-              {({field, form}: {field: FieldInputProps<any>, form: FormikProps<FormValues>}) => (
+              {({field, form}: {field: FieldInputProps<any>, form: FormikProps<LoginPayload>}) => (
                 <FormControl isInvalid={form.errors.password && form.touched.password}>
                   <Input {...field} type="password" id="password" placeholder="Password" />
                   <FormErrorMessage>{form.errors.password}</FormErrorMessage>
@@ -57,7 +54,7 @@ const LoginForm = ({ onSubmit }: {onSubmit: (values: FormValues, actions: Formik
             isFullWidth
             mt={4}
             colorScheme="teal"
-            disabled={loginButtonDisabled}
+            disabled={loginButtonDisabled || props.isSubmitting}
             isLoading={props.isSubmitting}
             type="submit"
           >
@@ -69,5 +66,5 @@ const LoginForm = ({ onSubmit }: {onSubmit: (values: FormValues, actions: Formik
   )
 }
 
-export type { FormValues };
+export type { LoginPayload };
 export default LoginForm;

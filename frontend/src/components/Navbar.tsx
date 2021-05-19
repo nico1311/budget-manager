@@ -44,22 +44,26 @@ export default function Navbar({handleLogout}: {handleLogout: () => void}) {
   return (
     <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
       <Flex h={16} alignItems="center" justifyContent="space-between">
-        <IconButton
-          size="md"
-          icon={isOpen ? <Icon as={MdClose} /> : <Icon as={MdMenu} />}
-          aria-label="Open menu"
-          display={{ md: 'none' }}
-          onClick={isOpen ? onClose : onOpen}
-        />
+        {user ?
+          <IconButton
+            size="md"
+            icon={isOpen ? <Icon as={MdClose} /> : <Icon as={MdMenu} />}
+            aria-label="Open menu"
+            display={{ md: 'none' }}
+            onClick={isOpen ? onClose : onOpen}
+          />
+        : null}
         <HStack spacing={8} alignItems="center">
           <Flex>
             <Icon w="24px" h="24px" as={MdAttachMoney} />
             <Text fontWeight="bold">BudgetManager</Text>
           </Flex>
-          <HStack as="nav" spacing={4} display={{ base: 'none', md: 'flex' }}>
-            <NavLink target="/dashboard">Dashboard</NavLink>
-            <NavLink target="/transactions">Transactions</NavLink>
-          </HStack>
+          {user ? 
+            <HStack as="nav" spacing={4} display={{ base: 'none', md: 'flex' }}>
+              <NavLink target="/dashboard">Dashboard</NavLink>
+              <NavLink target="/transactions">Transactions</NavLink>
+            </HStack>
+          : null }
         </HStack>
         <Flex alignItems="center">
           {user ?
@@ -80,7 +84,7 @@ export default function Navbar({handleLogout}: {handleLogout: () => void}) {
         </Flex>
       </Flex>
 
-      {isOpen ? (
+      {user && isOpen ? (
         <Box pb={4} display={{ md: 'none' }}>
           <Stack as="nav" spacing={4}>
             <NavLink target="/dashboard">Dashboard</NavLink>

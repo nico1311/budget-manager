@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react';
 import { useLocation } from 'wouter';
-
 import {
   Box,
   Container,
@@ -8,13 +7,13 @@ import {
   Stack,
   Heading,
   Text,
-  Center,
-  Flex,
   useToast
 } from '@chakra-ui/react';
 
 import { FormikHelpers } from 'formik';
-import LoginForm, { FormValues as LoginFormValues } from '../components/Login/LoginForm';
+import LoginForm from '../components/Login/LoginForm';
+import SignUpForm from '../components/Login/SignUpForm';
+import type { LoginPayload, SignUpPayload } from '../types';
 
 import { UserContext } from '../context/UserContext';
 
@@ -23,28 +22,44 @@ import ApiClient from '../services/ApiClient';
 const Login = () => {
   const [location, setLocation] = useLocation();
   const {user, setUser} = useContext(UserContext);
+  const [switchedForm, setSwitchedForm] = useState(false);
   const toast = useToast();
 
-  const onLoginFormSubmit = (values: LoginFormValues, actions: FormikHelpers<LoginFormValues>) => {
-    console.log('login form values', values);
-    const { email, password } = values;
-    ApiClient.login({ email, password }).then((res) => {
+  const errorToast = (err: any) => {
+    let errorMessage: string = err.response?.data?.errors[0]?.message ?
+      err.response?.data?.errors[0]?.message : err.message;
+    if (errorMessage === 'unique validation failure') errorMessage = 'Email is already in use';
+    toast({
+      title: 'Something went wrong',
+      description: errorMessage,
+      position: 'top-right',
+      status: 'error',
+      duration: 5000,
+      isClosable: true
+    });
+  }
+
+  const onLoginFormSubmit = (values: LoginPayload, actions: FormikHelpers<LoginPayload>) => {
+    ApiClient.login(values).then(() => {
       ApiClient.getUserInfo().then(({data}) => {
         setUser(data);
         setLocation('/dashboard');
-      })
+      }).catch(errorToast);
     }).catch((err) => {
       actions.setSubmitting(false);
-      const errorMessage = err.response?.data?.errors[0]?.message ?
-        err.response?.data?.errors[0]?.message : err.message;
-      toast({
-        title: 'Something went wrong',
-        description: errorMessage,
-        position: 'top-right',
-        status: 'error',
-        duration: 5000,
-        isClosable: true
-      });
+      errorToast(err);
+    });
+  }
+
+  const onSignUpFormSubmit = (values: SignUpPayload, actions: FormikHelpers<SignUpPayload>) => {
+    ApiClient.signUp(values).then(() => {
+      ApiClient.getUserInfo().then(({data}) => {
+        setUser(data);
+        setLocation('/dashboard');
+      }).catch(errorToast);
+    }).catch((err) => {
+      actions.setSubmitting(false);
+      errorToast(err);
     });
   }
 
@@ -52,10 +67,15 @@ const Login = () => {
     <Container maxWidth="24rem">
       <Stack spacing="16px">
         <Heading size="lg">Log in or register</Heading>
-        <LoginForm onSubmit={onLoginFormSubmit} />
+        {switchedForm ? 
+          <SignUpForm onSubmit={onSignUpFormSubmit} /> :
+          <LoginForm onSubmit={onLoginFormSubmit} />
+        }
         <Box>
-          <Text>Don't have an account?</Text>
-          <Button isFullWidth mt={4}>Sign up</Button>
+          <Text>{switchedForm ? 'Already a user?': 'Don\'t have an account?'}</Text>
+          <Button isFullWidth mt={4} onClick={() => setSwitchedForm(!switchedForm)}>
+            {switchedForm ? 'Log in': 'Sign up'}
+          </Button>
         </Box>
         </Stack>
     </Container>
