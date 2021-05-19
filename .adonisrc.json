@@ -1,5 +1,14 @@
 {
   "typescript": true,
+  "directories": {
+    "public": "frontend/dist"
+  },
+  "metaFiles": [
+    {
+      "pattern": "frontend/dist/**",
+      "reloadServer": false
+    }    
+  ],
   "commands": [
     "./commands",
     "@adonisjs/core/build/commands",
