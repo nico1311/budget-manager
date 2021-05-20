@@ -1,0 +1,108 @@
+/api/auth/login:
+  post:
+    tags:
+      - Authentication
+    description: Log in with email and password
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+                required: true
+                example: 'example@domain.com'
+              password:
+                type: string
+                format: password
+                required: true
+                example: 'example'
+    produces:
+      - application/json
+    responses:
+      '200':
+        description: Success
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                success:
+                  type: boolean
+                  example: true
+      '422':
+        description: Payload validation failed
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                errors:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      rule:
+                        type: string
+                        description: 'The validation rule that failed'
+                        example: 'required'
+                      field:
+                        type: string
+                        description: 'The field that failed validation'
+                        example: 'password'
+                      message:
+                        type: string
+                        description: 'Additional error context'
+                        example: 'required validation failed'
+      '400':
+        description: Invalid user credentials
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                errors:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: 'Invalid user credentials'
+/api/auth/logout:
+  post:
+    tags:
+      - Authentication
+    description: Log out (invalidate session cookie)
+    produces:
+      - application/json
+    responses:
+      '200':
+        description: Logout succeeded
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                success:
+                  type: boolean
+                  example: true
+      '401':
+        description: Unauthorized (no valid session cookie was provided)
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                errors:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: 'E_UNAUTHORIZED_ACCESS: Unauthorized access'
+
+
