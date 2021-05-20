@@ -46,7 +46,7 @@ const SignUpForm = ({ onSubmit }: {onSubmit: (values: SignUpPayload, actions: Fo
           <Stack spacing="16px">
             <Field name="name">
               {({field, form}: {field: FieldInputProps<any>, form: FormikProps<SignUpPayload>}) => (
-                <FormControl isInvalid={form.errors.name && form.touched.name}>
+                <FormControl isInvalid={Boolean(form.errors.name && form.touched.name)}>
                   <Input {...field} id="name" placeholder="Name" />
                   <FormErrorMessage>{form.errors.name}</FormErrorMessage>
                 </FormControl>
@@ -54,7 +54,7 @@ const SignUpForm = ({ onSubmit }: {onSubmit: (values: SignUpPayload, actions: Fo
             </Field>
             <Field name="email" type="email">
               {({field, form}: {field: FieldInputProps<any>, form: FormikProps<SignUpPayload>}) => (
-                <FormControl isInvalid={form.errors.email && form.touched.email}>
+                <FormControl isInvalid={Boolean(form.errors.email && form.touched.email)}>
                   <Input {...field} id="email" placeholder="Email" />
                   <FormErrorMessage>{form.errors.email}</FormErrorMessage>
                 </FormControl>
@@ -62,7 +62,7 @@ const SignUpForm = ({ onSubmit }: {onSubmit: (values: SignUpPayload, actions: Fo
             </Field>
             <Field name="password">
               {({field, form}: {field: FieldInputProps<any>, form: FormikProps<SignUpPayload>}) => (
-                <FormControl isInvalid={form.errors.password && form.touched.password}>
+                <FormControl isInvalid={Boolean(form.errors.password && form.touched.password)}>
                   <Input {...field} type="password" id="password" placeholder="Password" />
                   <FormErrorMessage>{form.errors.password}</FormErrorMessage>
                 </FormControl>
@@ -70,7 +70,7 @@ const SignUpForm = ({ onSubmit }: {onSubmit: (values: SignUpPayload, actions: Fo
             </Field>
             <Field name="password_confirmation">
               {({field, form}: {field: FieldInputProps<any>, form: FormikProps<SignUpPayload>}) => (
-                <FormControl isInvalid={form.errors.password_confirmation && form.touched.password_confirmation}>
+                <FormControl isInvalid={Boolean(form.errors.password_confirmation && form.touched.password_confirmation)}>
                   <Input {...field} type="password" id="password_confirmation" placeholder="Password confirmation" />
                   <FormErrorMessage>{form.errors.password_confirmation}</FormErrorMessage>
                 </FormControl>
@@ -81,7 +81,7 @@ const SignUpForm = ({ onSubmit }: {onSubmit: (values: SignUpPayload, actions: Fo
             isFullWidth
             mt={4}
             colorScheme="teal"
-            disabled={signUpButtonnDisabled || props.isSubmitting}
+            disabled={signUpButtonDisabled || props.isSubmitting}
             isLoading={props.isSubmitting}
             type="submit"
           >

@@ -35,7 +35,7 @@ const LoginForm = ({ onSubmit }: {onSubmit: (values: LoginPayload, actions: Form
           <Stack spacing="16px">
             <Field name="email" type="email">
               {({field, form}: {field: FieldInputProps<any>, form: FormikProps<LoginPayload>}) => (
-                <FormControl isInvalid={form.errors.email && form.touched.email}>
+                <FormControl isInvalid={Boolean(form.errors.email && form.touched.email)}>
                   <Input {...field} id="email" placeholder="Email" />
                   <FormErrorMessage>{form.errors.email}</FormErrorMessage>
                 </FormControl>
@@ -43,7 +43,7 @@ const LoginForm = ({ onSubmit }: {onSubmit: (values: LoginPayload, actions: Form
             </Field>
             <Field name="password">
               {({field, form}: {field: FieldInputProps<any>, form: FormikProps<LoginPayload>}) => (
-                <FormControl isInvalid={form.errors.password && form.touched.password}>
+                <FormControl isInvalid={Boolean(form.errors.password && form.touched.password)}>
                   <Input {...field} type="password" id="password" placeholder="Password" />
                   <FormErrorMessage>{form.errors.password}</FormErrorMessage>
                 </FormControl>

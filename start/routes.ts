@@ -11,3 +11,8 @@ Route.get('/api/transactions', 'TransactionsController.listTransactions').middle
 Route.get('/api/transactions/:id', 'TransactionsController.getTransaction').middleware('auth');
 Route.patch('/api/transactions/:id', 'TransactionsController.editTransaction').middleware('auth');
 Route.delete('/api/transactions/:id', 'TransactionsController.deleteTransaction').middleware('auth');
+
+Route.get('*', (ctx) => {
+  // Ugly workaround to handle frontend routes. I should probably have used nginx.
+  ctx.response.download('./frontend/dist/index.html');
+});
