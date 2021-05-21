@@ -1,0 +1,17 @@
+components:
+  responses:
+    Unauthorized:
+      description: Unauthorized (no valid session cookie was provided)
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      example: 'E_UNAUTHORIZED_ACCESS: Unauthorized access'

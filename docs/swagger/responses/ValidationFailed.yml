@@ -1,0 +1,26 @@
+components:
+  responses:
+    ValidationFailed:
+      description: Payload validation failed
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    rule:
+                      type: string
+                      description: 'The validation rule that failed'
+                      example: 'required'
+                    field:
+                      type: string
+                      description: 'The field that failed validation'
+                      example: 'password'
+                    message:
+                      type: string
+                      description: 'Additional error context'
+                      example: 'required validation failed'

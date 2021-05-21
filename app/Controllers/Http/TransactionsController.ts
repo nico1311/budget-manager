@@ -2,14 +2,19 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { rules, schema } from '@ioc:Adonis/Core/Validator';
 import Transaction from 'App/Models/Transaction';
 
+const TransactionTypes = {
+  INCOME: 1,
+  OUTCOME: 2
+}
+
 const OutcomeTransactionTypes = {
   NO_CATEGORY: 0,
   SHOPPING: 1,
   FOOD_AND_RESTAURANTS: 2,
   TRANSPORT: 3,
-  EXPENSES_AND_SERVICES: 3,
-  ENTERTAINMENT: 4,
-  TRAVEL: 5
+  EXPENSES_AND_SERVICES: 4,
+  ENTERTAINMENT: 5,
+  TRAVEL: 6
 }
 
 export default class TransactionsController {
@@ -19,7 +24,7 @@ export default class TransactionsController {
 
     const createTransactionPayloadSchema = schema.create({
       createdAt: schema.date.optional(),
-      type: schema.enum([1, 2] as const),
+      type: schema.enum(Object.values(TransactionTypes)),
       category: schema.enum.optional(Object.values(OutcomeTransactionTypes)),
       amount: schema.number(),
       comment: schema.string({}, [

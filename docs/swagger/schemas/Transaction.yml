@@ -1,0 +1,53 @@
+components:
+  schemas:
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+          description: 'Transaction ID'
+          example: 11
+        user_id:
+          type: integer
+          readOnly: true
+          description: 'User associated with this transaction'
+          example: 2
+        created_at:
+          type: string
+          format: date-time
+          description: 'Timestamp of the transaction, represented as ISO string'
+        type:
+          type: integer
+          required: true
+          enum: [1, 2]
+          description: >
+            Transaction type:
+              * `1`: money income
+              * `2`: money outcome
+          example: 2
+        category:
+          type: integer
+          nullable: true
+          enum: [0, 1, 2, 3, 4, 5, null]
+          description: >
+            Transaction category. Used only for outcome transactions.
+              * `0`: Default (no category)
+              * `1`: Shopping
+              * `2`: Food and restaurants
+              * `3`: Transport
+              * `4`: Expenses and services
+              * `5`: Entertainment
+              * `6`: Travel
+          example: 2
+        amount:
+          type: number
+          format: double
+          required: true
+          description: 'Transaction amount'
+          example: 20
+        comment:
+          type: string
+          required: true
+          description: 'Description of this transaction'
+          example: 'Purchase'

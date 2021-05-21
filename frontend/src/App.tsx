@@ -27,7 +27,8 @@ function App() {
     ApiClient.getUserInfo().then(({data}) => {
       console.log(data);
       setUser(data);
-      setLocation('/dashboard');
+      // if requested location is / or /login, redirect to dashboard. else redirect to requested location
+      setLocation(['/', '/login'].includes(location.toLowerCase()) ? '/dashboard': location);
     }).catch((err) => {
       if (err.response && err.response.status == 401) {
         setLocation('/login');

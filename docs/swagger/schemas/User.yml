@@ -1,0 +1,38 @@
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+          description: 'User ID'
+          example: 2
+        name:
+          type: string
+          required: true
+          description: 'User full name'
+          example: 'John Doe'
+        email:
+          type: string
+          required: true
+          description: 'User email'
+          example: 'johndoe@domain.com'
+        password:
+          type: string
+          required: true
+          writeOnly: true
+          description: 'User password (used for user creation only)'
+          example: 'examplePassword'
+        password_confirmation:
+          type: string
+          required: true
+          writeOnly: true
+          description: 'Password confirmation (used for user creation only. Values must be the same as `password` key)'
+          example: 'examplePassword'
+        balance:
+          type: number
+          format: double
+          readOnly: true
+          nullable: true
+          description: 'User balance'

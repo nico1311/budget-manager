@@ -1,0 +1,38 @@
+/api/users:
+  post:
+    tags:
+      - Users
+    summary: Create a user account
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/User'
+    produces:
+      - application/json
+    responses:
+      '201':
+        description: User created successfully
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      '422':
+        $ref: '#/components/responses/ValidationFailed'
+/api/users/me:
+  get:
+    tags:
+      - Users
+    summary: Get details of the currently logged in user
+    produces:
+      - application/json
+    responses:
+      '200':
+        description: Success
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      '401':
+        $ref: '#/components/responses/Unauthorized'

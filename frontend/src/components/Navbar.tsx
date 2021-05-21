@@ -1,7 +1,6 @@
 import React, { ReactNode, useContext } from 'react';
 import {
   Box,
-  Button,
   Flex,
   HStack,
   Icon,
@@ -68,9 +67,7 @@ export default function Navbar({handleLogout}: {handleLogout: () => void}) {
         <Flex alignItems="center">
           {user ?
             <Menu>
-              <MenuButton as={Button} variant="link" cursor="pointer">
-                <IconButton aria-label="User menu" icon={<Icon as={MdPerson} />}/>
-              </MenuButton>
+              <MenuButton as={IconButton} aria-label="User menu" icon={<Icon as={MdPerson} />} />
               <MenuList>
                 <Box paddingLeft="3">
                   <Text fontWeight="bold">{user.name}</Text>

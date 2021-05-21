@@ -1,0 +1,134 @@
+/api/transactions:
+  get:
+    tags:
+      - Transactions
+    summary: List transactions
+    produces:
+      - application/json
+    responses:
+      '200':
+        description: Success
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                transactions:
+                  type: array
+                  description: 'Array of transactions'
+                  items:
+                    $ref: '#/components/schemas/Transaction'
+                  minItems: 1
+      '401':
+        $ref: '#/components/responses/Unauthorized'
+      '404':
+        description: No transactions found for the current user
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                transactions:
+                  type: array
+                  items: {}
+                  example: []
+  post:
+    tags:
+      - Transactions
+    summary: Create a transaction
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Transaction'
+    produces:
+      - application/json
+    responses:
+      '201':
+        description: Transaction created successfully
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transaction'
+      '401':
+        $ref: '#/components/responses/Unauthorized'
+      '422':
+        $ref: '#/components/responses/ValidationFailed'
+/api/transactions/{id}:
+  get:
+    tags:
+      - Transactions
+    summary: Get a single transaction
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+        description: 'ID of the transaction to get'
+    produces:
+      - application/json
+    responses:
+      '200':
+        description: Success
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transaction'
+      '401':
+        $ref: '#/components/responses/Unauthorized'
+      '404':
+        description: The requested transaction cannot be found
+  patch:
+    tags:
+      - Transactions
+    summary: Update an existing transaction
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+        description: 'ID of the transaction to update'
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Transaction'
+    produces:
+      - application/json
+    responses:
+      '200':
+        description: Transaction updated successfully
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transaction'
+      '401':
+        $ref: '#/components/responses/Unauthorized'
+      '404':
+        description: The requested transaction cannot be found
+      '422':
+        $ref: '#/components/responses/ValidationFailed'
+  delete:
+    tags:
+      - Transactions
+    summary: Delete a transaction
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+        description: 'ID of the transaction to delete'
+    produces:
+      - application/json
+    responses:
+      '204':
+        description: Transaction deleted successfully
+      '401':
+        $ref: '#/components/responses/Unauthorized'
+      '404':
+        description: The requested transaction cannot be found
