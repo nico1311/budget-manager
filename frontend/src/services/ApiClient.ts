@@ -26,6 +26,15 @@ class ApiClient {
     return this.apiCall('auth/login', 'POST', data);
   }
 
+  static async logout() {
+    return this.apiCall('auth/logout', 'POST');
+  }
+
+  static async getTransactions(params?: {limit?: number, page?: number}) {
+    const query = new URLSearchParams(params as Record<string, string> | undefined).toString();
+    return this.apiCall(`transactions${query ? `?${query}` : ''}`);
+  }
+
   static async signUp(data: SignUpPayload) {
     return this.apiCall('users', 'POST', data);
   }

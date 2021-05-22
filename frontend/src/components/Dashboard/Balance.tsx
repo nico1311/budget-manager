@@ -12,7 +12,7 @@ const Balance = ({balance}: {balance: number}) => {
       bg={useColorModeValue('blue.200', 'blue.800')}
     >
       <Heading size="md">Balance</Heading>
-      <Text>$ {balance}</Text>
+      <Text>$&nbsp;{balance.toLocaleString()}</Text>
     </Box>
   );
 }
