@@ -48,16 +48,20 @@ export default class TransactionsController {
   }
 
   public async listTransactions(ctx: HttpContextContract) {
-    const { auth, response } = ctx,
+    const { auth, request, response } = ctx,
       user = auth.user!;
 
-    // TODO: implement filtering, pagination
-    const transactions = await Transaction.query()
-      .where('userId', '=', user.id);
+    const page = request.input('page', 1),
+      itemsPerPage = request.input('limit', 10);
 
-    if (transactions.length < 1) response.status(404);
+    const transactionsQuery = await Transaction.query()
+      .where('userId', '=', user.id)
+      .orderBy('created_at', 'desc')
+      .paginate(page, itemsPerPage);
 
-    return { transactions }
+    if (transactionsQuery.length < 1) response.status(404);
+
+    return transactionsQuery;
   }
 
   public async getTransaction(ctx: HttpContextContract) {

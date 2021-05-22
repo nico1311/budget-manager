@@ -3,6 +3,21 @@
     tags:
       - Transactions
     summary: List transactions
+    security:
+      - cookieAuth: []
+    parameters:
+      - in: query
+        name: limit
+        schema:
+          type: integer
+        description: 'Number of transactions to return per page (default: 10)'
+        example: 10
+      - in: query
+        name: page
+        schema:
+          type: integer
+          description: 'Page number'
+        example: 1
     produces:
       - application/json
     responses:
@@ -13,7 +28,49 @@
             schema:
               type: object
               properties:
-                transactions:
+                meta:
+                  type: object
+                  description: 'Pagination metadata'
+                  properties:
+                    total:
+                      type: integer
+                      description: 'Total items returned by this query'
+                      example: 27
+                    per_page:
+                      type: integer
+                      description: 'Items returned per page. Equal to `limit` query param.'
+                      example: 10
+                    current_page:
+                      type: integer
+                      description: 'Number of the currently returned page'
+                      example: 1
+                    first_page:
+                      type: integer
+                      description: 'Number of the first page'
+                      example: 1
+                    last_page:
+                      type: integer
+                      description: 'Number of the last page'
+                      example: 3
+                    first_page_url:
+                      type: string
+                      description: 'URL of the first page'
+                      example: '/?page=1'
+                    last_page_url:
+                      type: string
+                      description: 'URL of the last page'
+                      example: '/?page=2'
+                    previous_page_url:
+                      type: string
+                      nullable: true
+                      description: 'URL of the previous page, if exists'
+                      example: '/?page=1'
+                    next_page_url:
+                      type: string
+                      nullable: true
+                      description: 'URL of the next page, if exists'
+                      example: '/?page=2'
+                data:
                   type: array
                   description: 'Array of transactions'
                   items:
@@ -36,6 +93,8 @@
     tags:
       - Transactions
     summary: Create a transaction
+    security:
+      - cookieAuth: []
     requestBody:
       required: true
       content:
@@ -60,6 +119,8 @@
     tags:
       - Transactions
     summary: Get a single transaction
+    security:
+      - cookieAuth: []
     parameters:
       - in: path
         name: id
@@ -84,6 +145,8 @@
     tags:
       - Transactions
     summary: Update an existing transaction
+    security:
+      - cookieAuth: []
     parameters:
       - in: path
         name: id
@@ -116,6 +179,8 @@
     tags:
       - Transactions
     summary: Delete a transaction
+    security:
+      - cookieAuth: []
     parameters:
       - in: path
         name: id

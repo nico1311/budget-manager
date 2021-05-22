@@ -1,0 +1,6 @@
+components:
+  securitySchemas:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: session

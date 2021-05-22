@@ -25,6 +25,8 @@
     tags:
       - Users
     summary: Get details of the currently logged in user
+    security:
+      - cookieAuth: []
     produces:
       - application/json
     responses:

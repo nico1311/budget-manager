@@ -54,6 +54,8 @@
     tags:
       - Authentication
     summary: Log out (invalidate session cookie)
+    security:
+      - cookieAuth: []
     produces:
       - application/json
     responses:
