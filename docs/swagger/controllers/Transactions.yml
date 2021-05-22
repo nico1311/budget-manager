@@ -16,7 +16,7 @@
         name: page
         schema:
           type: integer
-          description: 'Page number'
+        description: 'Page number'
         example: 1
     produces:
       - application/json
