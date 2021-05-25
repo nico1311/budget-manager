@@ -13,7 +13,7 @@ export default class Transaction extends BaseModel {
   public user: BelongsTo<typeof User>
 
   @column.dateTime()
-  public createdAt: DateTime
+  public created_at: DateTime
 
   @column()
   public type: number
