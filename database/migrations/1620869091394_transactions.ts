@@ -14,7 +14,7 @@ export default class Transactions extends BaseSchema {
       table.dateTime('created_at').defaultTo(this.now())
       table.integer('type').notNullable()
       table.integer('category').defaultTo(0)
-      table.decimal('amount').notNullable()
+      table.decimal('amount', 15, 2).notNullable()
       table.string('comment', 1000).notNullable()
     });
 

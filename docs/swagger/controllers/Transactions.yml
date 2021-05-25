@@ -109,7 +109,15 @@
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Transaction'
+              type: object
+              properties:
+                transaction:
+                  $ref: '#/components/schemas/Transaction'
+                balance:
+                  type: number
+                  format: double
+                  description: 'New account balance after creating the transaction'
+                  example: 1400
       '401':
         $ref: '#/components/responses/Unauthorized'
       '422':
@@ -168,7 +176,15 @@
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Transaction'
+              type: object
+              properties:
+                transaction:
+                  $ref: '#/components/schemas/Transaction'
+                balance:
+                  type: number
+                  format: double
+                  description: 'New account balance after updating the transaction'
+                  example: 1400
       '401':
         $ref: '#/components/responses/Unauthorized'
       '404':
@@ -191,8 +207,21 @@
     produces:
       - application/json
     responses:
-      '204':
+      '200':
         description: Transaction deleted successfully
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                success:
+                  type: boolean
+                  example: true
+                balance:
+                  type: number
+                  format: double
+                  description: 'New account balance after deleting the transaction'
+                  example: 1400
       '401':
         $ref: '#/components/responses/Unauthorized'
       '404':
