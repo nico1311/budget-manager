@@ -14,8 +14,8 @@ export interface Transaction {
   id: number,
   user_id: number,
   created_at: string,
-  type: 1 | 2,
-  category?: (0 | 1 | 2 | 3 | 4 | 5 | 6),
+  type: number,
+  category: number,
   amount: number,
-  comment: string
+  comment: string 
 }

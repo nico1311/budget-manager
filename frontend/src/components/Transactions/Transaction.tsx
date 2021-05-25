@@ -18,10 +18,9 @@ MdRemove, MdAdd
 
 import type { Transaction as ITransaction } from '../../types';
 
-const Transaction = ({ transaction, handleEdit, handleDelete }: {
+const Transaction = ({ transaction, handleAction }: {
   transaction: ITransaction,
-  handleEdit?: (id: ITransaction['id']) => void,
-  handleDelete?: (id: ITransaction['id']) => void
+  handleAction?: (action: 'edit' | 'delete', id: ITransaction['id']) => void
 }) => {
 
   const CategoryIcon = (() => {
@@ -90,12 +89,12 @@ const Transaction = ({ transaction, handleEdit, handleDelete }: {
         </Box>
       </Box>
       <Box ml="2">
-        {(handleEdit || handleDelete) &&
+        {handleAction &&
           <Menu>
             <MenuButton as={Button} rightIcon={<MdExpandMore />}>Actions</MenuButton>
             <MenuList>
-              {handleEdit && <MenuItem onClick={() => handleEdit(transaction.id)} icon={<Icon w="20px" h="20px" as={MdModeEdit} />}>Edit</MenuItem>}
-              {handleDelete && <MenuItem onClick={() => handleDelete(transaction.id)} icon={<Icon w="20px" h="20px" as={MdDelete} />}>Delete</MenuItem>}
+              <MenuItem onClick={() => handleAction('edit', transaction.id)} icon={<Icon w="20px" h="20px" as={MdModeEdit} />}>Edit</MenuItem>
+              <MenuItem onClick={() => handleAction('delete', transaction.id)} icon={<Icon w="20px" h="20px" as={MdDelete} />}>Delete</MenuItem>
             </MenuList>
           </Menu>
         }

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import type { LoginPayload, SignUpPayload } from '../types';
+import type { LoginPayload, SignUpPayload, Transaction as ITransaction } from '../types';
 
 class ApiClient {
   static api: AxiosInstance = axios.create();
@@ -15,15 +15,15 @@ class ApiClient {
         method,
         url: `/api/${path}`
       }
-      if (method === 'POST' && body) config.data = body;
+      if (['POST', 'PATCH'].includes(method) && body) config.data = body;
       this.api(config).then((res) => {
         resolve(res);
       }).catch(reject);
     });
   }
 
-  static async login(data: LoginPayload) {
-    return this.apiCall('auth/login', 'POST', data);
+  static async login(body: LoginPayload) {
+    return this.apiCall('auth/login', 'POST', body);
   }
 
   static async logout() {
@@ -35,8 +35,20 @@ class ApiClient {
     return this.apiCall(`transactions${query ? `?${query}` : ''}`);
   }
 
-  static async signUp(data: SignUpPayload) {
-    return this.apiCall('users', 'POST', data);
+  static async createTransaction(body: Partial<ITransaction>) {
+    return this.apiCall('transactions', 'POST', body);
+  }
+
+  static async editTransaction(id: number, body: Partial<ITransaction>) {
+    return this.apiCall(`transactions/${id}`, 'PATCH', body);
+  }
+
+  static async deleteTransaction(id: number) {
+    return this.apiCall(`transactions/${id}`, 'DELETE');
+  }
+
+  static async signUp(body: SignUpPayload) {
+    return this.apiCall('users', 'POST', body);
   }
 
   static async getUserInfo() {

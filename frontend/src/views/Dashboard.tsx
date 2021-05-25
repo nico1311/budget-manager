@@ -31,8 +31,11 @@ const Dashboard = () => {
     ApiClient.getTransactions({limit: 10}).then(({ data }: {data: {data: ITransaction[]}}) => {
       console.log(data);
       setTransactions(data.data);
-      console.log(transactions);
     }).catch((err) => {
+      if (err.response?.status === 401) {
+        setLocation('/login');
+        setUser(null);
+      }
       if (err.response?.status !== 404) {
         console.error(err);
       }
