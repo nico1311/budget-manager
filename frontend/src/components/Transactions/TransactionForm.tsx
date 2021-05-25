@@ -71,7 +71,7 @@ const TransactionForm = ({mode = 'edit', transaction, formikRef, handleSubmissio
       }}
     >
       {(props) => (
-        <Form>
+        <Form id="transaction">
           {mode === 'create' &&
             <Field name="type">
               {({field, form}) => (

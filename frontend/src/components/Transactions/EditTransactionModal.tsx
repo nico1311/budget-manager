@@ -43,7 +43,16 @@ const EditTransactionModal = ({isOpen, buttonLoading, transaction, handleCancel,
 
         <ModalFooter>
           <Button mr={3} onClick={handleCancel}>Cancel</Button>
-          <Button colorScheme="blue" onClick={handleConfirmButton} isLoading={buttonLoading} disabled={buttonLoading}>Confirm</Button>
+          <Button
+            form="transaction"
+            type="submit"
+            colorScheme="blue"
+            onClick={handleConfirmButton}
+            isLoading={buttonLoading}
+            disabled={buttonLoading}
+          >
+            Confirm
+          </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>

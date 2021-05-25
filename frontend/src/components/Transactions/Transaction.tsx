@@ -11,10 +11,21 @@ import {
   Spacer,
   Square
 } from '@chakra-ui/react';
-import {MdExpandMore, MdModeEdit, MdShoppingCart, MdMovie,
-MdFlight, MdRestaurant, MdTrain, MdLocalOffer, MdLocalAtm, MdDelete,
-MdRemove, MdAdd
+import {
+  MdAdd,
+  MdDelete,
+  MdExpandMore,
+  MdFlight,
+  MdLocalOffer,
+  MdLocalAtm,
+  MdModeEdit,
+  MdMovie,
+  MdRemove,
+  MdRestaurant,
+  MdShoppingCart,
+  MdTrain
 } from 'react-icons/md';
+import { format } from 'date-fns';
 
 import type { Transaction as ITransaction } from '../../types';
 
@@ -85,7 +96,7 @@ const Transaction = ({ transaction, handleAction }: {
           $&nbsp;{transaction.amount.toLocaleString()}
         </Box>
         <Box fontSize="sm">
-          {new Date(transaction.created_at).toLocaleString()}
+          {format(new Date(transaction.created_at), 'MM/dd/yyyy hh:mm aa')}
         </Box>
       </Box>
       <Box ml="2">

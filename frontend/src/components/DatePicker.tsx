@@ -21,7 +21,7 @@ const DatePicker = ({
 }: Props & HTMLAttributes<HTMLElement>) => {
   return (
     <ReactDatePicker
-      dateFormat="MM/dd/yyyy h:mm aa"
+      dateFormat="MM/dd/yyyy hh:mm aa"
       selected={selectedDate}
       onChange={onChange}
       isClearable={isClearable}
