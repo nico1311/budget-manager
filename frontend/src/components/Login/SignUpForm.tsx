@@ -7,11 +7,13 @@ import {
   Stack,
 } from '@chakra-ui/react';
 
-import { Formik, Form, Field } from 'formik';
-import { FormikErrors, FormikHelpers, FormikProps, FieldInputProps } from 'formik';
+import {
+  Formik, Form, Field, FormikErrors, FormikHelpers, FormikProps, FieldInputProps,
+} from 'formik';
+
 import type { SignUpPayload } from '../../types';
 
-const SignUpForm = ({ onSubmit }: {onSubmit: (values: SignUpPayload, actions: FormikHelpers<SignUpPayload>) => void}) => {
+const SignUpForm = ({ onSubmit }: { onSubmit: (values: SignUpPayload, actions: FormikHelpers<SignUpPayload>) => void }) => {
   const [signUpButtonDisabled, setSignUpButtonDisabled] = useState(true);
 
   return (
@@ -20,7 +22,7 @@ const SignUpForm = ({ onSubmit }: {onSubmit: (values: SignUpPayload, actions: Fo
         name: '',
         email: '',
         password: '',
-        password_confirmation: ''
+        password_confirmation: '',
       }}
       validate={(values: SignUpPayload) => {
         const errors: FormikErrors<SignUpPayload> = {};
@@ -41,11 +43,11 @@ const SignUpForm = ({ onSubmit }: {onSubmit: (values: SignUpPayload, actions: Fo
       }}
       onSubmit={onSubmit}
     >
-      {(props) => (
+      {(props: FormikProps<SignUpPayload>) => (
         <Form>
           <Stack spacing="16px">
             <Field name="name">
-              {({field, form}: {field: FieldInputProps<any>, form: FormikProps<SignUpPayload>}) => (
+              {({ field, form }: { field: FieldInputProps<any>, form: FormikProps<SignUpPayload> }) => (
                 <FormControl isInvalid={Boolean(form.errors.name && form.touched.name)}>
                   <Input {...field} id="name" placeholder="Name" />
                   <FormErrorMessage>{form.errors.name}</FormErrorMessage>
@@ -53,7 +55,7 @@ const SignUpForm = ({ onSubmit }: {onSubmit: (values: SignUpPayload, actions: Fo
               )}
             </Field>
             <Field name="email" type="email">
-              {({field, form}: {field: FieldInputProps<any>, form: FormikProps<SignUpPayload>}) => (
+              {({ field, form }: { field: FieldInputProps<any>, form: FormikProps<SignUpPayload> }) => (
                 <FormControl isInvalid={Boolean(form.errors.email && form.touched.email)}>
                   <Input {...field} id="email" placeholder="Email" />
                   <FormErrorMessage>{form.errors.email}</FormErrorMessage>
@@ -61,7 +63,7 @@ const SignUpForm = ({ onSubmit }: {onSubmit: (values: SignUpPayload, actions: Fo
               )}
             </Field>
             <Field name="password">
-              {({field, form}: {field: FieldInputProps<any>, form: FormikProps<SignUpPayload>}) => (
+              {({ field, form }: { field: FieldInputProps<any>, form: FormikProps<SignUpPayload> }) => (
                 <FormControl isInvalid={Boolean(form.errors.password && form.touched.password)}>
                   <Input {...field} type="password" id="password" placeholder="Password" />
                   <FormErrorMessage>{form.errors.password}</FormErrorMessage>
@@ -69,7 +71,7 @@ const SignUpForm = ({ onSubmit }: {onSubmit: (values: SignUpPayload, actions: Fo
               )}
             </Field>
             <Field name="password_confirmation">
-              {({field, form}: {field: FieldInputProps<any>, form: FormikProps<SignUpPayload>}) => (
+              {({ field, form }: { field: FieldInputProps<any>, form: FormikProps<SignUpPayload> }) => (
                 <FormControl isInvalid={Boolean(form.errors.password_confirmation && form.touched.password_confirmation)}>
                   <Input {...field} type="password" id="password_confirmation" placeholder="Password confirmation" />
                   <FormErrorMessage>{form.errors.password_confirmation}</FormErrorMessage>
@@ -90,7 +92,7 @@ const SignUpForm = ({ onSubmit }: {onSubmit: (values: SignUpPayload, actions: Fo
         </Form>
       )}
     </Formik>
-  )
-}
+  );
+};
 
 export default SignUpForm;

@@ -5,6 +5,6 @@ const LoadingSpinner = () => (
   <Flex justify="center">
     <Spinner size="xl" color="blue.600" />
   </Flex>
-)
+);
 
 export default LoadingSpinner;

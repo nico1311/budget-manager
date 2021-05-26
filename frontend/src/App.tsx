@@ -4,7 +4,7 @@ import { Route, Router, useLocation } from 'wouter';
 import { UserContext } from './context/UserContext';
 
 import theme from './theme';
-//import './App.css'
+// import './App.css'
 
 import Navbar from './components/Navbar';
 import LoadingSpinner from './components/LoadingSpinner';
@@ -25,13 +25,13 @@ function App() {
 
   useEffect(() => {
     setLoading(true);
-    ApiClient.getUserInfo().then(({data}) => {
+    ApiClient.getUserInfo().then(({ data }) => {
       console.log(data);
       setUser(data);
       // if requested location is / or /login, redirect to dashboard. else redirect to requested location
-      setLocation(['/', '/login'].includes(location.toLowerCase()) ? '/dashboard': location);
+      setLocation(['/', '/login'].includes(location.toLowerCase()) ? '/dashboard' : location);
     }).catch((err) => {
-      if (err.response && err.response.status == 401) {
+      if (err.response && err.response.status === 401) {
         setLocation('/login');
       } else {
         setError(err.message);
@@ -44,27 +44,28 @@ function App() {
       setLocation('/login');
       setUser(null);
     }).catch(console.error);
-  }
+  };
 
   return (
-    <UserContext.Provider value={{user, setUser}}>
+    <UserContext.Provider value={{ user, setUser }}>
       <ChakraProvider theme={theme}>
         <div className="App">
           <Navbar handleLogout={handleLogout} />
           <Box padding="4">
-            {loading ? <LoadingSpinner /> :
-              error ? <ErrorDisplay message={error} /> :
-                <Router>
-                  <Route path="/login" component={Login} />
-                  <Route path="/dashboard" component={Dashboard} />
-                  <Route path="/transactions" component={Transactions} />
-                </Router>
-            }
+            {loading ? <LoadingSpinner />
+              : error ? <ErrorDisplay message={error} />
+                : (
+                  <Router>
+                    <Route path="/login" component={Login} />
+                    <Route path="/dashboard" component={Dashboard} />
+                    <Route path="/transactions" component={Transactions} />
+                  </Router>
+                )}
           </Box>
         </div>
       </ChakraProvider>
     </UserContext.Provider>
-  )
+  );
 }
 
-export default App
+export default App;

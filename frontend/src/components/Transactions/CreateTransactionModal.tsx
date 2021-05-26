@@ -7,14 +7,16 @@ import {
   ModalHeader,
   ModalFooter,
   ModalBody,
-  ModalCloseButton
+  ModalCloseButton,
 } from '@chakra-ui/react';
 
 import TransactionForm from './TransactionForm';
 
 import type { Transaction as ITransaction } from '../../types';
 
-const CreateTransactionModal = ({isOpen, buttonLoading, handleCancel, handleConfirm }: {
+const CreateTransactionModal = ({
+  isOpen, buttonLoading, handleCancel, handleConfirm,
+}: {
   isOpen: boolean,
   buttonLoading: boolean,
   handleCancel: () => void
@@ -26,8 +28,8 @@ const CreateTransactionModal = ({isOpen, buttonLoading, handleCancel, handleConf
     type: 1,
     category: 0,
     amount: 0,
-    comment: ''
-  }
+    comment: '',
+  };
 
   const handleConfirmButton = () => formRef.current.handleSubmit();
 
@@ -42,7 +44,7 @@ const CreateTransactionModal = ({isOpen, buttonLoading, handleCancel, handleConf
         <ModalBody>
           <TransactionForm
             mode="create"
-            formikRef={formRef} 
+            formikRef={formRef}
             transaction={initialTransactionValues}
             handleSubmission={handleFormSubmission}
           />
@@ -63,7 +65,7 @@ const CreateTransactionModal = ({isOpen, buttonLoading, handleCancel, handleConf
         </ModalFooter>
       </ModalContent>
     </Modal>
-  )
-}
+  );
+};
 
 export default CreateTransactionModal;

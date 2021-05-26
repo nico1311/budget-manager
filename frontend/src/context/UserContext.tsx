@@ -5,14 +5,14 @@ type User = {
   email: string,
   name: string,
   balance: number
-}
+};
 
-type UserContext = {
+type UserContextType = {
   user?: User | null,
   setUser: React.Dispatch<React.SetStateAction<User | any>>
-}
+};
 
-export const UserContext = createContext<UserContext>({
+export const UserContext = createContext<UserContextType>({
   user: null,
-  setUser: () => {}
+  setUser: () => {},
 });

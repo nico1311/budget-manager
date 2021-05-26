@@ -10,7 +10,9 @@ import {
   Button,
 } from '@chakra-ui/react';
 
-const DeleteTransactionDialog = ({isOpen, buttonLoading, handleCancel, handleConfirm}:{isOpen: boolean, buttonLoading: boolean, handleCancel: () => void, handleConfirm: () => void}) => {
+const DeleteTransactionDialog = ({
+  isOpen, buttonLoading, handleCancel, handleConfirm,
+}:{ isOpen: boolean, buttonLoading: boolean, handleCancel: () => void, handleConfirm: () => void }) => {
   const cancelRef = React.useRef(null);
 
   return (
@@ -30,7 +32,7 @@ const DeleteTransactionDialog = ({isOpen, buttonLoading, handleCancel, handleCon
         </AlertDialogContent>
       </AlertDialogOverlay>
     </AlertDialog>
-  )
-}
+  );
+};
 
 export default DeleteTransactionDialog;

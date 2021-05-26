@@ -3,14 +3,11 @@ import { useLocation } from 'wouter';
 import {
   Box,
   Button,
-  Stack,
   Heading,
   Icon,
-  Text,
-  Center,
   Flex,
   Spacer,
-  useToast
+  useToast,
 } from '@chakra-ui/react';
 
 import { MdAdd } from 'react-icons/md';
@@ -49,7 +46,7 @@ const Transactions = () => {
   const toast = useToast();
 
   useEffect(() => {
-    ApiClient.getTransactions({limit: 10}).then(({ data }: {data: {data: ITransaction[]}}) => {
+    ApiClient.getTransactions({ limit: 10 }).then(({ data }: { data: { data: ITransaction[] } }) => {
       console.log(data);
       setTransactions(data.data);
     }).catch((err) => {
@@ -64,7 +61,7 @@ const Transactions = () => {
   }, []);
 
   const handleAction = (action: 'edit' | 'delete', id: number) => {
-    console.log('handleAction', {action, id});
+    console.log('handleAction', { action, id });
     const transaction = transactions.find((item) => item.id === id) as ITransaction;
     setPendingTransaction(transaction);
     switch (action) {
@@ -76,17 +73,17 @@ const Transactions = () => {
         break;
       default:
         console.error(`Action ${action} not implemented`);
-    }    
-  }
+    }
+  };
 
   const handleCreateModalCancel = () => {
     setCreateModalOpen(false);
-  }
+  };
 
   const handleCreateModalConfirm = (values, actions) => {
     setCreateModalLoading(true);
     console.log('create', values);
-    ApiClient.createTransaction(values).then(({data}) => {
+    ApiClient.createTransaction(values).then(({ data }) => {
       console.log(data);
 
       toast({
@@ -94,19 +91,19 @@ const Transactions = () => {
         position: 'top-right',
         status: 'success',
         duration: 5000,
-        isClosable: true
+        isClosable: true,
       });
 
       // update balance in user context
       setUser({
         ...user,
-        balance: data.balance
+        balance: data.balance,
       });
 
       // add new transaction to state
       setTransactions([
         data.transaction,
-        ...transactions
+        ...transactions,
       ]);
 
       setCreateModalOpen(false);
@@ -116,26 +113,26 @@ const Transactions = () => {
       actions.setSubmitting(false);
       setCreateModalLoading(false);
     });
-  }
+  };
 
   const handleEditModalCancel = () => {
     setEditModalOpen(false);
     setPendingTransaction(null);
-  }
+  };
 
   const handleEditModalConfirm = (values, actions) => {
     setEditModalLoading(true);
     const changedValues: Partial<ITransaction> = Object.keys(values).reduce((obj, key) => {
-      if ((pendingTransaction as ITransaction)[key] === values[key]) return obj
+      if ((pendingTransaction as ITransaction)[key] === values[key]) return obj;
       return {
         ...obj,
-        [key]: values[key]
-      }
+        [key]: values[key],
+      };
     }, {});
 
     console.log('changed values: ', changedValues);
 
-    ApiClient.editTransaction(pendingTransaction!.id, changedValues).then(({data}) => {
+    ApiClient.editTransaction(pendingTransaction!.id, changedValues).then(({ data }) => {
       console.log(data);
 
       toast({
@@ -143,17 +140,17 @@ const Transactions = () => {
         position: 'top-right',
         status: 'success',
         duration: 5000,
-        isClosable: true
+        isClosable: true,
       });
 
       // update balance in user context
       setUser({
         ...user,
-        balance: data.balance
+        balance: data.balance,
       });
 
       // update transaction in state with received value
-      setTransactions(transactions.map((item) => item.id === data.transaction.id ? data.transaction : item));
+      setTransactions(transactions.map((item) => (item.id === data.transaction.id ? data.transaction : item)));
 
       setEditModalOpen(false);
       setPendingTransaction(null);
@@ -161,30 +158,30 @@ const Transactions = () => {
       console.error(err);
     }).finally(() => {
       actions.setSubmitting(false);
-      setEditModalLoading(false);      
+      setEditModalLoading(false);
     });
-  }
+  };
 
   const handleDeleteDialogCancel = () => {
     setDeleteDialogOpen(false);
     setPendingTransaction(null);
-  }
+  };
 
   const handleDeleteDialogConfirm = () => {
     setDeleteDialogLoading(true);
-    ApiClient.deleteTransaction(pendingTransaction!.id).then(({data}) => {
+    ApiClient.deleteTransaction(pendingTransaction!.id).then(({ data }) => {
       toast({
         description: 'Transaction deleted successfully',
         position: 'top-right',
         status: 'success',
         duration: 5000,
-        isClosable: true
+        isClosable: true,
       });
 
       // update balance in user context
       setUser({
         ...user,
-        balance: data.balance
+        balance: data.balance,
       });
 
       // delete transaction from state
@@ -197,14 +194,14 @@ const Transactions = () => {
         position: 'top-right',
         status: 'error',
         duration: 5000,
-        isClosable: true
+        isClosable: true,
       });
     }).finally(() => {
       setDeleteDialogOpen(false);
       setDeleteDialogLoading(false);
-      setPendingTransaction(null);      
+      setPendingTransaction(null);
     });
-  }
+  };
 
   return (
     <Box>
@@ -220,20 +217,22 @@ const Transactions = () => {
         </Button>
       </Flex>
       <Box>
-        {loading ? <LoadingSpinner /> :
-          transactions.length ? <Box my="3">
-            {transactions.map((transaction) => (
-              <Transaction
-                key={transaction.id}
-                transaction={transaction}
-                handleAction={handleAction}
-              />
-            ))}
-          </Box> :
-          <Flex boxShadow="lg" margin="2" padding="4" justify="center">
-            No transactions to show.
-          </Flex>
-        }
+        {loading ? <LoadingSpinner />
+          : transactions.length ? (
+            <Box my="3">
+              {transactions.map((transaction) => (
+                <Transaction
+                  key={transaction.id}
+                  transaction={transaction}
+                  handleAction={handleAction}
+                />
+              ))}
+            </Box>
+          ) : (
+            <Flex boxShadow="lg" margin="2" padding="4" justify="center">
+              No transactions to show.
+            </Flex>
+          )}
         <CreateTransactionModal
           isOpen={createModalOpen}
           buttonLoading={createModalLoading}
@@ -256,6 +255,6 @@ const Transactions = () => {
       </Box>
     </Box>
   );
-}
+};
 
 export default Transactions;

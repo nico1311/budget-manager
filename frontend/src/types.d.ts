@@ -17,5 +17,5 @@ export interface Transaction {
   type: number,
   category: number,
   amount: number,
-  comment: string 
+  comment: string
 }

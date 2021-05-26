@@ -18,18 +18,16 @@ const DatePicker = ({
   isClearable = false,
   showPopperArrow = false,
   ...props
-}: Props & HTMLAttributes<HTMLElement>) => {
-  return (
-    <ReactDatePicker
-      dateFormat="MM/dd/yyyy hh:mm aa"
-      selected={selectedDate}
-      onChange={onChange}
-      isClearable={isClearable}
-      showPopperArrow={showPopperArrow}
-      showTimeInput
-      {...props}
-    />
-  );
-};
+}: Props & HTMLAttributes<HTMLElement>) => (
+  <ReactDatePicker
+    dateFormat="MM/dd/yyyy hh:mm aa"
+    selected={selectedDate}
+    onChange={onChange}
+    isClearable={isClearable}
+    showPopperArrow={showPopperArrow}
+    showTimeInput
+    {...props}
+  />
+);
 
 export default DatePicker;
