@@ -5,7 +5,7 @@ import {
   Button,
   Heading,
   Flex,
-  Spacer
+  Spacer,
 } from '@chakra-ui/react';
 import { UserContext } from '../context/UserContext';
 
@@ -41,7 +41,7 @@ const Dashboard = () => {
     <Box>
       <Flex>
         <Heading size="lg">
-          Welcome,
+          Welcome,&nbsp;
           {user!.name}
         </Heading>
         <Spacer />
@@ -66,12 +66,12 @@ const Dashboard = () => {
             <Flex
               boxShadow="lg"
               margin="2"
-              padding="4"
+              padding="3"
+              direction="column"
               justify="center"
             >
-              You have no transactions. Go to
-              <Button variant="link" mx="1" mb="1px" color="teal.500" onClick={() => setLocation('/transactions')}>Transactions</Button>
-              to create some.
+              Your latest transactions will appear in this page once you create some.
+              <Button my="2" colorScheme="blue" onClick={() => setLocation('/transactions')}>Go to transactions page</Button>
             </Flex>
           )}
       </Box>

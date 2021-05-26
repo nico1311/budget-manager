@@ -62,7 +62,6 @@ const Transactions = () => {
       limit: 10,
       page,
     }).then(({ data }: { data: { data: ITransaction[], meta: { first_page: number, last_page: number } } }) => {
-      console.log(data);
       setTotalPages(data.meta.last_page);
       setTransactions(data.data);
     }).catch((err) => {
@@ -139,13 +138,13 @@ const Transactions = () => {
     setPendingTransaction(null);
   };
 
-  const handleEditModalConfirm = (values, actions) => {
+  const handleEditModalConfirm = (values: Partial<ITransaction>, actions: FormikHelpers<Partial<ITransaction>>) => {
     setEditModalLoading(true);
     const changedValues: Partial<ITransaction> = Object.keys(values).reduce((obj, key) => {
-      if ((pendingTransaction as ITransaction)[key] === values[key]) return obj;
+      if ((pendingTransaction!)[key as keyof typeof pendingTransaction] === values[key as keyof typeof values]) return obj;
       return {
         ...obj,
-        [key]: values[key],
+        [key]: values[key as keyof typeof values],
       };
     }, {});
 
@@ -287,19 +286,24 @@ const Transactions = () => {
         handleCancel={handleCreateModalCancel}
         handleConfirm={handleCreateModalConfirm}
       />
-      <EditTransactionModal
-        isOpen={editModalOpen}
-        buttonLoading={editModalLoading}
-        transaction={pendingTransaction}
-        handleCancel={handleEditModalCancel}
-        handleConfirm={handleEditModalConfirm}
-      />
-      <DeleteTransactionDialog
-        isOpen={deleteDialogOpen}
-        buttonLoading={deleteDialogLoading}
-        handleCancel={handleDeleteDialogCancel}
-        handleConfirm={handleDeleteDialogConfirm}
-      />
+      {pendingTransaction
+        && (
+        <>
+          <EditTransactionModal
+            isOpen={editModalOpen}
+            buttonLoading={editModalLoading}
+            transaction={pendingTransaction}
+            handleCancel={handleEditModalCancel}
+            handleConfirm={handleEditModalConfirm}
+          />
+          <DeleteTransactionDialog
+            isOpen={deleteDialogOpen}
+            buttonLoading={deleteDialogLoading}
+            handleCancel={handleDeleteDialogCancel}
+            handleConfirm={handleDeleteDialogConfirm}
+          />
+        </>
+        )}
     </Box>
   );
 };

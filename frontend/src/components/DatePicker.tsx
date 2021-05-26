@@ -10,6 +10,7 @@ interface Props {
   onChange: (date: Date) => any;
   selectedDate: Date | undefined;
   showPopperArrow?: boolean;
+  showTimeInput?: boolean
 }
 
 const DatePicker = ({
@@ -17,15 +18,18 @@ const DatePicker = ({
   onChange,
   isClearable = false,
   showPopperArrow = false,
+  showTimeInput = true,
   ...props
 }: Props & HTMLAttributes<HTMLElement>) => (
+  /*
+  // @ts-ignore */
   <ReactDatePicker
     dateFormat="MM/dd/yyyy hh:mm aa"
     selected={selectedDate}
     onChange={onChange}
     isClearable={isClearable}
     showPopperArrow={showPopperArrow}
-    showTimeInput
+    showTimeInput={showTimeInput}
     {...props}
   />
 );

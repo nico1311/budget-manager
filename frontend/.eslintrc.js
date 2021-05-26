@@ -37,6 +37,7 @@ module.exports = {
     'react/prop-types': ['off'],
     'react/require-default-props': ['off'],
     'react-hooks/exhaustive-deps': ['off'],
+    '@typescript-eslint/ban-ts-comment': ['warn'],
     '@typescript-eslint/no-non-null-assertion': ['off']
   }
 };

@@ -60,7 +60,7 @@ const Transaction = ({ transaction, handleAction }: {
     4: 'Expenses and Services',
     5: 'Entertainment',
     6: 'Travel',
-  };
+  } as const;
 
   return (
     <Flex
@@ -82,11 +82,11 @@ const Transaction = ({ transaction, handleAction }: {
       </Square>
       <Flex direction="column" wrap="wrap" maxW="50%">
         <Box fontWeight="bold">{transaction.comment}</Box>
-        {(transaction.type === 2)
+        {(transaction.type === 2 && typeof transaction.category !== 'undefined')
           && (
           <Flex alignItems="center" fontSize="sm">
             <Icon w="16px" h="16px" mr="1" as={CategoryIcon} />
-            {categoryNames[transaction.category!]}
+            {categoryNames[transaction.category as keyof typeof categoryNames]}
           </Flex>
           )}
       </Flex>

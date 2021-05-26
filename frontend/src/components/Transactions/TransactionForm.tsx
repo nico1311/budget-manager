@@ -27,9 +27,9 @@ import { Transaction as ITransaction } from '../../types';
 const TransactionForm = ({
   mode = 'edit', transaction, formikRef, handleSubmission,
 }: {
-  mode: 'create' | 'edit',
+  mode?: 'create' | 'edit',
   transaction: Partial<ITransaction>,
-  formikRef: React.RefObject<HTMLFormElement>,
+  formikRef: React.MutableRefObject<FormikProps<Partial<ITransaction>>>,
   handleSubmission: (values: Partial<ITransaction>, actions: FormikHelpers<Partial<ITransaction>>) => void
 }) => {
   const [transactionType, setTransactionType] = React.useState(String(transaction.type));
@@ -88,7 +88,7 @@ const TransactionForm = ({
             && (
             <Field name="type">
               {({ field, form }: { field: FieldInputProps<any>, form: FormikProps<Partial<ITransaction>> }) => (
-                <FormControl mb="3" isInvalid={form.errors.type && form.touched.type}>
+                <FormControl mb="3" isInvalid={Boolean(form.errors.type && form.touched.type)}>
                   <FormLabel htmlFor="type">Type</FormLabel>
                   <RadioGroup name="type" onChange={setTransactionType} value={transactionType}>
                     <Stack direction="row">
@@ -108,6 +108,8 @@ const TransactionForm = ({
                 <DatePicker
                   id="created_at"
                   selectedDate={transactionDate}
+                  /*
+                  // @ts-ignore */
                   onChange={onDatePickerChange}
                   showPopperArrow
                 />
@@ -118,7 +120,7 @@ const TransactionForm = ({
             && (
             <Field name="category">
               {({ field, form }: { field: FieldInputProps<any>, form: FormikProps<Partial<ITransaction>> }) => (
-                <FormControl mb="2" isInvalid={form.errors.category && form.touched.category}>
+                <FormControl mb="2" isInvalid={Boolean(form.errors.category && form.touched.category)}>
                   <FormLabel htmlFor="category">Category</FormLabel>
                   <Select id="category" name="category" value={transactionCategory} onChange={onCategorySelectChange}>
                     {Object.entries(categoryNames).map(([key, name]) => (
@@ -132,7 +134,7 @@ const TransactionForm = ({
             )}
           <Field name="amount">
             {({ field, form }: { field: FieldInputProps<any>, form: FormikProps<Partial<ITransaction>> }) => (
-              <FormControl mb="2" isInvalid={form.errors.amount && form.touched.amount}>
+              <FormControl mb="2" isInvalid={Boolean(form.errors.amount && form.touched.amount)}>
                 <FormLabel htmlFor="amount">Amount</FormLabel>
                 <InputGroup>
                   <InputLeftElement pointerEvents="none" color="gray.300" fontSize="1.2em">$</InputLeftElement>
@@ -144,7 +146,7 @@ const TransactionForm = ({
           </Field>
           <Field name="comment">
             {({ field, form }: { field: FieldInputProps<any>, form: FormikProps<Partial<ITransaction>> }) => (
-              <FormControl isInvalid={form.errors.comment && form.touched.comment}>
+              <FormControl isInvalid={Boolean(form.errors.comment && form.touched.comment)}>
                 <FormLabel htmlFor="comment">Comment</FormLabel>
                 <Input {...field} id="comment" placeholder="Comment" />
                 <FormErrorMessage>{form.errors.comment}</FormErrorMessage>

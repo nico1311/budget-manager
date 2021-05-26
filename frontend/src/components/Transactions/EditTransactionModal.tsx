@@ -10,6 +10,7 @@ import {
   ModalCloseButton,
 } from '@chakra-ui/react';
 
+import type { FormikHelpers, FormikProps } from 'formik';
 import TransactionForm from './TransactionForm';
 
 import type { Transaction as ITransaction } from '../../types';
@@ -19,15 +20,19 @@ const EditTransactionModal = ({
 }: {
   isOpen: boolean,
   buttonLoading: boolean,
-  transaction: ITransaction | null,
-  handleCancel: () => void
+  transaction: ITransaction,
+  handleCancel: () => void,
+  handleConfirm: (values: Partial<ITransaction>, actions: FormikHelpers<Partial<ITransaction>>) => void
 }) => {
   const pendingTransaction = transaction;
-  const formRef = useRef(null);
+  const formRef = useRef<FormikProps<Partial<ITransaction>>>() as React.MutableRefObject<FormikProps<Partial<ITransaction>>>;
 
-  const handleConfirmButton = () => formRef.current.handleSubmit();
+  const handleConfirmButton = () => formRef!.current!.handleSubmit();
 
-  const handleFormSubmission = (values, actions) => handleConfirm(values, actions);
+  const handleFormSubmission = (
+    values: Partial<ITransaction>,
+    actions: FormikHelpers<Partial<ITransaction>>,
+  ) => handleConfirm(values, actions);
 
   return (
     <Modal isOpen={isOpen} onClose={handleCancel}>
