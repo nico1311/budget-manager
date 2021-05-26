@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { ChakraProvider, Box, useToast } from '@chakra-ui/react';
+import { ChakraProvider, Box } from '@chakra-ui/react';
 import { Route, Router, useLocation } from 'wouter';
 import { UserContext } from './context/UserContext';
 
 import theme from './theme';
-// import './App.css'
 
 import Navbar from './components/Navbar';
 import LoadingSpinner from './components/LoadingSpinner';
@@ -21,12 +20,10 @@ function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const toast = useToast();
 
   useEffect(() => {
     setLoading(true);
     ApiClient.getUserInfo().then(({ data }) => {
-      console.log(data);
       setUser(data);
       // if requested location is / or /login, redirect to dashboard. else redirect to requested location
       setLocation(['/', '/login'].includes(location.toLowerCase()) ? '/dashboard' : location);

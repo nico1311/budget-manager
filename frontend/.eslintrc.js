@@ -35,6 +35,8 @@ module.exports = {
     'import/prefer-default-export': ['off'],
     'react/jsx-props-no-spreading': ['off'],
     'react/prop-types': ['off'],
-    'react/require-default-props': ['off']
+    'react/require-default-props': ['off'],
+    'react-hooks/exhaustive-deps': ['off'],
+    '@typescript-eslint/no-non-null-assertion': ['off']
   }
 };

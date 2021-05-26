@@ -9,9 +9,18 @@ import {
   Spacer,
   useToast,
 } from '@chakra-ui/react';
+import {
+  Paginator,
+  Container,
+  Previous,
+  Next,
+  PageGroup,
+  usePaginator,
+} from 'chakra-paginator';
 
 import { MdAdd } from 'react-icons/md';
 
+import type { FormikHelpers } from 'formik';
 import { UserContext } from '../context/UserContext';
 
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -31,6 +40,9 @@ const Transactions = () => {
   const [transactions, setTransactions] = useState<ITransaction[]>([]);
   const [pendingTransaction, setPendingTransaction] = useState<ITransaction | null>(null);
 
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
   // create
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [createModalLoading, setCreateModalLoading] = useState(false);
@@ -46,8 +58,12 @@ const Transactions = () => {
   const toast = useToast();
 
   useEffect(() => {
-    ApiClient.getTransactions({ limit: 10 }).then(({ data }: { data: { data: ITransaction[] } }) => {
+    ApiClient.getTransactions({
+      limit: 10,
+      page,
+    }).then(({ data }: { data: { data: ITransaction[], meta: { first_page: number, last_page: number } } }) => {
       console.log(data);
+      setTotalPages(data.meta.last_page);
       setTransactions(data.data);
     }).catch((err) => {
       if (err.response?.status === 401) {
@@ -58,10 +74,9 @@ const Transactions = () => {
         console.error(err);
       }
     }).finally(() => setLoading(false));
-  }, []);
+  }, [page, totalPages]);
 
   const handleAction = (action: 'edit' | 'delete', id: number) => {
-    console.log('handleAction', { action, id });
     const transaction = transactions.find((item) => item.id === id) as ITransaction;
     setPendingTransaction(transaction);
     switch (action) {
@@ -80,12 +95,9 @@ const Transactions = () => {
     setCreateModalOpen(false);
   };
 
-  const handleCreateModalConfirm = (values, actions) => {
+  const handleCreateModalConfirm = (values: Partial<ITransaction>, actions: FormikHelpers<Partial<ITransaction>>) => {
     setCreateModalLoading(true);
-    console.log('create', values);
     ApiClient.createTransaction(values).then(({ data }) => {
-      console.log(data);
-
       toast({
         description: 'Transaction created successfully',
         position: 'top-right',
@@ -108,7 +120,14 @@ const Transactions = () => {
 
       setCreateModalOpen(false);
     }).catch((err) => {
-      console.error(err);
+      toast({
+        title: 'Error saving transaction',
+        description: err.message,
+        position: 'top-right',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
     }).finally(() => {
       actions.setSubmitting(false);
       setCreateModalLoading(false);
@@ -130,11 +149,7 @@ const Transactions = () => {
       };
     }, {});
 
-    console.log('changed values: ', changedValues);
-
     ApiClient.editTransaction(pendingTransaction!.id, changedValues).then(({ data }) => {
-      console.log(data);
-
       toast({
         description: 'Transaction updated successfully',
         position: 'top-right',
@@ -155,7 +170,15 @@ const Transactions = () => {
       setEditModalOpen(false);
       setPendingTransaction(null);
     }).catch((err) => {
-      console.error(err);
+      const errorMessage: string = err.response?.status === 404 ? 'This transaction does not exist' : err.message;
+      toast({
+        title: 'Error saving transaction',
+        description: errorMessage,
+        position: 'top-right',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
     }).finally(() => {
       actions.setSubmitting(false);
       setEditModalLoading(false);
@@ -227,32 +250,56 @@ const Transactions = () => {
                   handleAction={handleAction}
                 />
               ))}
+
+              <Paginator
+                currentPage={page}
+                pagesQuantity={totalPages}
+                onPageChange={setPage}
+                normalStyles={{
+                  w: 8,
+                  fontSize: 'sm',
+                }}
+                activeStyles={{
+                  w: 8,
+                  bg: 'blue.300',
+                  fontSize: 'sm',
+                  _hover: {
+                    bg: 'blue.400',
+                  },
+                }}
+              >
+                <Container align="center" justify="space-between" w="full" p={4}>
+                  <Previous>Previous</Previous>
+                  <PageGroup isInline align="center" />
+                  <Next>Next</Next>
+                </Container>
+              </Paginator>
             </Box>
           ) : (
             <Flex boxShadow="lg" margin="2" padding="4" justify="center">
               No transactions to show.
             </Flex>
           )}
-        <CreateTransactionModal
-          isOpen={createModalOpen}
-          buttonLoading={createModalLoading}
-          handleCancel={handleCreateModalCancel}
-          handleConfirm={handleCreateModalConfirm}
-        />
-        <EditTransactionModal
-          isOpen={editModalOpen}
-          buttonLoading={editModalLoading}
-          transaction={pendingTransaction}
-          handleCancel={handleEditModalCancel}
-          handleConfirm={handleEditModalConfirm}
-        />
-        <DeleteTransactionDialog
-          isOpen={deleteDialogOpen}
-          buttonLoading={deleteDialogLoading}
-          handleCancel={handleDeleteDialogCancel}
-          handleConfirm={handleDeleteDialogConfirm}
-        />
       </Box>
+      <CreateTransactionModal
+        isOpen={createModalOpen}
+        buttonLoading={createModalLoading}
+        handleCancel={handleCreateModalCancel}
+        handleConfirm={handleCreateModalConfirm}
+      />
+      <EditTransactionModal
+        isOpen={editModalOpen}
+        buttonLoading={editModalLoading}
+        transaction={pendingTransaction}
+        handleCancel={handleEditModalCancel}
+        handleConfirm={handleEditModalConfirm}
+      />
+      <DeleteTransactionDialog
+        isOpen={deleteDialogOpen}
+        buttonLoading={deleteDialogLoading}
+        handleCancel={handleDeleteDialogCancel}
+        handleConfirm={handleDeleteDialogConfirm}
+      />
     </Box>
   );
 };

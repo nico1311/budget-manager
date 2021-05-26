@@ -8,10 +8,11 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "@chakra-ui/react": "^1.6.2",
+    "@chakra-ui/react": "1.6.1",
     "@emotion/react": "^11.4.0",
     "@emotion/styled": "^11.3.0",
     "axios": "^0.21.1",
+    "chakra-paginator": "^0.7.1",
     "date-fns": "^2.21.3",
     "formik": "^2.2.8",
     "framer-motion": "^4.1.17",

@@ -5,8 +5,7 @@ import {
   Button,
   Heading,
   Flex,
-  Spacer,
-  useToast,
+  Spacer
 } from '@chakra-ui/react';
 import { UserContext } from '../context/UserContext';
 
@@ -26,7 +25,6 @@ const Dashboard = () => {
 
   useEffect(() => {
     ApiClient.getTransactions({ limit: 10 }).then(({ data }: { data: { data: ITransaction[] } }) => {
-      console.log(data);
       setTransactions(data.data);
     }).catch((err) => {
       if (err.response?.status === 401) {
