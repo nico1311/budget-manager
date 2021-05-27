@@ -42,3 +42,8 @@ Browser compatibility: any browser that [supports ES6 modules](https://caniuse.c
 - Run `node server.js` to start the server
 - App will be available at http://localhost:3333/
 - API docs will be available at http://localhost:3333/docs
+
+### Run with Docker
+1. Build Docker image: `docker build -t budgetmanager:latest .`
+2. Run migrations: `docker run --env-file .env -it budgetmanager:latest  "node" "ace" "migration:run"`
+3. Start the server: `docker run --env-file .env -p 3333:3333 -it budgetmanager:latest`

@@ -15,7 +15,6 @@
     "@adonisjs/assembler": "^5.1.1",
     "adonis-preset-ts": "^2.1.0",
     "npm-run-all": "^4.1.5",
-    "pino-pretty": "^4.8.0",
     "typescript": "~4.2",
     "youch": "^2.2.2",
     "youch-terminal": "^1.1.1"
@@ -29,6 +28,7 @@
     "adonis5-swagger": "^1.2.3",
     "luxon": "^1.26.0",
     "mysql": "^2.18.1",
+    "pino-pretty": "^4.8.0",
     "phc-bcrypt": "^1.0.7",
     "proxy-addr": "^2.0.6",
     "reflect-metadata": "^0.1.13",
