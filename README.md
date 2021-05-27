@@ -1,6 +1,8 @@
 # BudgetManager
 A simple webapp for personal budget management.
 
+![Screenshot](/screenshot.png?raw=true)
+
 Built with:
 - Node + TypeScript + [AdonisJS](https://adonisjs.com/) (API server)
 - React + TypeScript + [Chakra UI](https://chakra-ui.com/) (frontend)
